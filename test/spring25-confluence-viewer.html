@@ -259,14 +259,6 @@
             <label for="filterVersionMax">Version Max:</label>
             <input type="text" id="filterVersionMax" placeholder="e.g., 2.0.0" onkeyup="applyFilters()">
           </div>
-          <div class="filter-group">
-            <label for="filterM3DateFrom">M3 From:</label>
-            <input type="date" id="filterM3DateFrom" onchange="applyFilters()">
-          </div>
-          <div class="filter-group">
-            <label for="filterM3DateTo">M3 To:</label>
-            <input type="date" id="filterM3DateTo" onchange="applyFilters()">
-          </div>
           <button class="clear-filters-btn" onclick="clearAllFilters()">Clear Filters</button>
         </div>
       </div>
@@ -1232,8 +1224,6 @@
       const repositoryFilter = document.getElementById('filterRepository').value.toLowerCase();
       const versionMinFilter = document.getElementById('filterVersionMin').value;
       const versionMaxFilter = document.getElementById('filterVersionMax').value;
-      const m3DateFromFilter = document.getElementById('filterM3DateFrom').value;
-      const m3DateToFilter = document.getElementById('filterM3DateTo').value;
       
       // Filter data
       filteredData = currentData.apis.filter(api => {
@@ -1272,17 +1262,6 @@
           }
         }
         
-        // M3 Date range filters
-        if (m3DateFromFilter && api.preRelease?.date) {
-          if (new Date(api.preRelease.date) < new Date(m3DateFromFilter)) {
-            return false;
-          }
-        }
-        if (m3DateToFilter && api.preRelease?.date) {
-          if (new Date(api.preRelease.date) > new Date(m3DateToFilter)) {
-            return false;
-          }
-        }
         
         return true;
       });
@@ -1298,8 +1277,6 @@
       document.getElementById('filterRepository').value = '';
       document.getElementById('filterVersionMin').value = '';
       document.getElementById('filterVersionMax').value = '';
-      document.getElementById('filterM3DateFrom').value = '';
-      document.getElementById('filterM3DateTo').value = '';
       
       applyFilters();
     }
