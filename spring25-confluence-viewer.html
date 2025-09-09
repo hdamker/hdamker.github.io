@@ -1,0 +1,1489 @@
+<!--
+ * ---license-start
+ * CAMARA Project
+ * ---
+ * Copyright (C) 2025 Contributors to CAMARA a Series of LF Projects, LLC
+ * The contributor of this file confirms his sign-off for the
+ * Developer Certificate of Origin (http://developercertificate.org).
+ * ---
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ---license-end
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAMARA API Status Viewer - Embedded</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: #24292f;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      padding-bottom: 0.3em;
+      border-bottom: 1px solid #d0d7de;
+    }
+    .metadata {
+      color: #57606a;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    .export-btn {
+      background-color: #2ea44f;
+      color: white;
+      border: 1px solid rgba(27,31,35,.15);
+      border-radius: 6px;
+      padding: 5px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-right: 8px;
+      font-family: inherit;
+    }
+    .export-btn:hover {
+      background-color: #2c974b;
+    }
+    .export-btn:disabled {
+      background-color: #94d3a2;
+      cursor: not-allowed;
+    }
+    .filters {
+      margin-bottom: 20px;
+      padding: 16px;
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      border: 1px solid #d0d7de;
+    }
+    .filter-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .filter-group label {
+      font-size: 14px;
+      color: #24292f;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .filter-group input[type="text"],
+    .filter-group input[type="date"],
+    .filter-group select {
+      padding: 5px 8px;
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      font-size: 14px;
+      background-color: white;
+    }
+    .filter-group input[type="text"] {
+      width: 150px;
+    }
+    .filter-group input[type="date"] {
+      width: 140px;
+    }
+    .filter-group select {
+      min-width: 100px;
+    }
+    .clear-filters-btn {
+      background-color: #57606a;
+      color: white;
+      border: 1px solid rgba(27,31,35,.15);
+      border-radius: 6px;
+      padding: 5px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      margin-left: auto;
+    }
+    .clear-filters-btn:hover {
+      background-color: #424a53;
+    }
+    .results-counter {
+      margin-bottom: 10px;
+      padding: 8px 16px;
+      background-color: #ddf4ff;
+      border: 1px solid #54aeff;
+      border-radius: 6px;
+      font-size: 14px;
+      color: #0969da;
+      font-weight: 500;
+    }
+    .results-counter.no-results {
+      background-color: #ffebe9;
+      border-color: #ff8182;
+      color: #cf222e;
+    }
+    table {
+      border-spacing: 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow: auto;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    th, td {
+      padding: 6px 13px;
+      border: 1px solid #d0d7de;
+      text-align: left;
+    }
+    th {
+      font-weight: 600;
+      background-color: #f6f8fa;
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+    }
+    th:hover {
+      background-color: #eaeef2;
+    }
+    tr {
+      background-color: #ffffff;
+      border-top: 1px solid #d0d7de;
+    }
+    tbody tr:nth-child(2n) {
+      background-color: #f6f8fa;
+    }
+    tbody tr:hover {
+      background-color: #eaeef2;
+    }
+    a {
+      color: #0969da;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .sort-arrow {
+      float: right;
+      color: #57606a;
+      font-size: 12px;
+    }
+    .sort-arrow.active-asc::after {
+      content: ' ↑';
+      color: #24292f;
+    }
+    .sort-arrow.active-desc::after {
+      content: ' ↓';
+      color: #24292f;
+    }
+    .sort-arrow:not(.active-asc):not(.active-desc)::after {
+      content: ' ⇅';
+    }
+    .notes {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid #d0d7de;
+      font-size: 14px;
+      color: #57606a;
+    }
+    .notes p {
+      margin: 8px 0;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>CAMARA API Status Viewer</h1>
+    
+    <div id="content">
+      <div class="metadata" id="metadata"></div>
+      
+      <button class="export-btn" onclick="exportToCSV()">Export to CSV</button>
+      <button class="export-btn" onclick="exportToJSON()">Export JSON</button>
+      
+      <div class="filters">
+        <div class="filter-row">
+          <div class="filter-group">
+            <label for="filterApiName">API Name:</label>
+            <input type="text" id="filterApiName" placeholder="Search..." onkeyup="applyFilters()">
+          </div>
+          <div class="filter-group">
+            <label for="filterMaturity">Maturity:</label>
+            <select id="filterMaturity" onchange="applyFilters()">
+              <option value="">All</option>
+              <option value="initial">Initial</option>
+              <option value="stable">Stable</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="filterNew">New:</label>
+            <select id="filterNew" onchange="applyFilters()">
+              <option value="">All</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="filterRepository">Repository:</label>
+            <input type="text" id="filterRepository" placeholder="Search..." onkeyup="applyFilters()">
+          </div>
+        </div>
+        <div class="filter-row">
+          <div class="filter-group">
+            <label for="filterVersionMin">Version Min:</label>
+            <input type="text" id="filterVersionMin" placeholder="e.g., 1.0.0" onkeyup="applyFilters()">
+          </div>
+          <div class="filter-group">
+            <label for="filterVersionMax">Version Max:</label>
+            <input type="text" id="filterVersionMax" placeholder="e.g., 2.0.0" onkeyup="applyFilters()">
+          </div>
+          <div class="filter-group">
+            <label for="filterM3DateFrom">M3 From:</label>
+            <input type="date" id="filterM3DateFrom" onchange="applyFilters()">
+          </div>
+          <div class="filter-group">
+            <label for="filterM3DateTo">M3 To:</label>
+            <input type="date" id="filterM3DateTo" onchange="applyFilters()">
+          </div>
+          <button class="clear-filters-btn" onclick="clearAllFilters()">Clear Filters</button>
+        </div>
+      </div>
+      
+      <div id="resultsCounter" class="results-counter hidden"></div>
+      
+      <table id="apiTable">
+        <thead>
+          <tr>
+            <th onclick="sortTable(0)">API <span class="sort-arrow"></span></th>
+            <th onclick="sortTable(1)">Target Version <span class="sort-arrow"></span></th>
+            <th onclick="sortTable(2)">Maturity <span class="sort-arrow"></span></th>
+            <th onclick="sortTable(3)">Current Version <span class="sort-arrow"></span></th>
+            <th onclick="sortTable(4)">Pre-release <span class="sort-arrow"></span></th>
+            <th onclick="sortTable(5)">M3 Date <span class="sort-arrow"></span></th>
+            <th onclick="sortTable(6)">M4 Release <span class="sort-arrow"></span></th>
+            <th onclick="sortTable(7)">M4 Date <span class="sort-arrow"></span></th>
+            <th onclick="sortTable(8)">Repository <span class="sort-arrow"></span></th>
+            <th onclick="sortTable(9)">New <span class="sort-arrow"></span></th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
+      </table>
+      
+      <div class="notes">
+        <p><em>Note: Target version is derived from the latest public release or by removing pre-release suffix from the latest pre-release.</em></p>
+        <p><em>M3 Date shows when the pre-release was published. M4 Date shows when the first public release was published.</em></p>
+        <p id="fall25Note" class="hidden"><em>For Fall25, M4 Release may show a PR link for planned releases from open Pull Requests.</em></p>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // EMBEDDED JSON DATA - This will be replaced by the generator script
+    const embeddedData = {
+      "metadata": {
+        "generated": "2025-09-09T21:11:42.289Z",
+        "metaRelease": "Spring25",
+        "reportType": "spring25",
+        "totalAPIs": 38,
+        "includesPrerelease": true
+      },
+      "apis": [
+        {
+          "name": "application-profiles",
+          "targetVersion": "0.4.0",
+          "maturity": "initial",
+          "currentVersion": "0.4.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-02-18",
+            "url": "https://github.com/camaraproject/ConnectivityInsights/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/ConnectivityInsights/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-14",
+          "repository": {
+            "name": "ConnectivityInsights",
+            "url": "https://github.com/camaraproject/ConnectivityInsights"
+          },
+          "isNew": false
+        },
+        {
+          "name": "blockchain-public-address",
+          "targetVersion": "0.2.0",
+          "maturity": "stable",
+          "currentVersion": "0.2.0",
+          "preRelease": {
+            "tag": "r1.1",
+            "date": "2025-02-20",
+            "url": "https://github.com/camaraproject/BlockchainPublicAddress/releases/tag/r1.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r1.2",
+            "url": "https://github.com/camaraproject/BlockchainPublicAddress/releases/tag/r1.2"
+          },
+          "m4Date": "2025-03-10",
+          "repository": {
+            "name": "BlockchainPublicAddress",
+            "url": "https://github.com/camaraproject/BlockchainPublicAddress"
+          },
+          "isNew": true
+        },
+        {
+          "name": "call-forwarding-signal",
+          "targetVersion": "0.3.0",
+          "maturity": "initial",
+          "currentVersion": "0.3.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-02-11",
+            "url": "https://github.com/camaraproject/CallForwardingSignal/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/CallForwardingSignal/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-06",
+          "repository": {
+            "name": "CallForwardingSignal",
+            "url": "https://github.com/camaraproject/CallForwardingSignal"
+          },
+          "isNew": false
+        },
+        {
+          "name": "carrier-billing",
+          "targetVersion": "0.4.0",
+          "maturity": "initial",
+          "currentVersion": "0.4.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-01-30",
+            "url": "https://github.com/camaraproject/CarrierBillingCheckOut/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/CarrierBillingCheckOut/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-11",
+          "repository": {
+            "name": "CarrierBillingCheckOut",
+            "url": "https://github.com/camaraproject/CarrierBillingCheckOut"
+          },
+          "isNew": false
+        },
+        {
+          "name": "carrier-billing-refund",
+          "targetVersion": "0.2.0",
+          "maturity": "initial",
+          "currentVersion": "0.2.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-01-30",
+            "url": "https://github.com/camaraproject/CarrierBillingCheckOut/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/CarrierBillingCheckOut/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-11",
+          "repository": {
+            "name": "CarrierBillingCheckOut",
+            "url": "https://github.com/camaraproject/CarrierBillingCheckOut"
+          },
+          "isNew": false
+        },
+        {
+          "name": "connected-network-type",
+          "targetVersion": "0.1.0",
+          "maturity": "initial",
+          "currentVersion": "0.1.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-02-14",
+            "url": "https://github.com/camaraproject/DeviceStatus/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/DeviceStatus/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-14",
+          "repository": {
+            "name": "DeviceStatus",
+            "url": "https://github.com/camaraproject/DeviceStatus"
+          },
+          "isNew": true
+        },
+        {
+          "name": "connected-network-type-subscriptions",
+          "targetVersion": "0.1.0",
+          "maturity": "initial",
+          "currentVersion": "0.1.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-02-14",
+            "url": "https://github.com/camaraproject/DeviceStatus/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/DeviceStatus/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-14",
+          "repository": {
+            "name": "DeviceStatus",
+            "url": "https://github.com/camaraproject/DeviceStatus"
+          },
+          "isNew": true
+        },
+        {
+          "name": "connectivity-insights",
+          "targetVersion": "0.5.0",
+          "maturity": "initial",
+          "currentVersion": "0.5.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-02-18",
+            "url": "https://github.com/camaraproject/ConnectivityInsights/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/ConnectivityInsights/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-14",
+          "repository": {
+            "name": "ConnectivityInsights",
+            "url": "https://github.com/camaraproject/ConnectivityInsights"
+          },
+          "isNew": false
+        },
+        {
+          "name": "connectivity-insights-subscriptions",
+          "targetVersion": "0.5.0",
+          "maturity": "initial",
+          "currentVersion": "0.5.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-02-18",
+            "url": "https://github.com/camaraproject/ConnectivityInsights/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/ConnectivityInsights/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-14",
+          "repository": {
+            "name": "ConnectivityInsights",
+            "url": "https://github.com/camaraproject/ConnectivityInsights"
+          },
+          "isNew": false
+        },
+        {
+          "name": "customer-insights",
+          "targetVersion": "0.1.1",
+          "maturity": "initial",
+          "currentVersion": "0.1.1",
+          "preRelease": {
+            "tag": "r1.1",
+            "date": "2025-02-07",
+            "url": "https://github.com/camaraproject/CustomerInsights/releases/tag/r1.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r1.2",
+            "url": "https://github.com/camaraproject/CustomerInsights/releases/tag/r1.2"
+          },
+          "m4Date": "2025-03-10",
+          "repository": {
+            "name": "CustomerInsights",
+            "url": "https://github.com/camaraproject/CustomerInsights"
+          },
+          "isNew": true
+        },
+        {
+          "name": "device-identifier",
+          "targetVersion": "0.2.0",
+          "maturity": "initial",
+          "currentVersion": "0.2.0",
+          "preRelease": {
+            "tag": "r1.2",
+            "date": "2025-02-12",
+            "url": "https://github.com/camaraproject/DeviceIdentifier/releases/tag/r1.2"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r1.3",
+            "url": "https://github.com/camaraproject/DeviceIdentifier/releases/tag/r1.3"
+          },
+          "m4Date": "2025-03-13",
+          "repository": {
+            "name": "DeviceIdentifier",
+            "url": "https://github.com/camaraproject/DeviceIdentifier"
+          },
+          "isNew": true
+        },
+        {
+          "name": "device-reachability-status",
+          "targetVersion": "1.0.0",
+          "maturity": "stable",
+          "currentVersion": "1.0.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-02-14",
+            "url": "https://github.com/camaraproject/DeviceStatus/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/DeviceStatus/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-14",
+          "repository": {
+            "name": "DeviceStatus",
+            "url": "https://github.com/camaraproject/DeviceStatus"
+          },
+          "isNew": false
+        },
+        {
+          "name": "device-reachability-status-subscriptions",
+          "targetVersion": "0.7.0",
+          "maturity": "initial",
+          "currentVersion": "0.7.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-02-14",
+            "url": "https://github.com/camaraproject/DeviceStatus/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/DeviceStatus/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-14",
+          "repository": {
+            "name": "DeviceStatus",
+            "url": "https://github.com/camaraproject/DeviceStatus"
+          },
+          "isNew": false
+        },
+        {
+          "name": "device-roaming-status",
+          "targetVersion": "1.0.0",
+          "maturity": "stable",
+          "currentVersion": "1.0.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-02-14",
+            "url": "https://github.com/camaraproject/DeviceStatus/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/DeviceStatus/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-14",
+          "repository": {
+            "name": "DeviceStatus",
+            "url": "https://github.com/camaraproject/DeviceStatus"
+          },
+          "isNew": false
+        },
+        {
+          "name": "device-roaming-status-subscriptions",
+          "targetVersion": "0.7.0",
+          "maturity": "initial",
+          "currentVersion": "0.7.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-02-14",
+            "url": "https://github.com/camaraproject/DeviceStatus/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/DeviceStatus/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-14",
+          "repository": {
+            "name": "DeviceStatus",
+            "url": "https://github.com/camaraproject/DeviceStatus"
+          },
+          "isNew": false
+        },
+        {
+          "name": "device-swap",
+          "targetVersion": "0.2.0",
+          "maturity": "initial",
+          "currentVersion": "0.2.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-02-13",
+            "url": "https://github.com/camaraproject/DeviceSwap/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/DeviceSwap/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-13",
+          "repository": {
+            "name": "DeviceSwap",
+            "url": "https://github.com/camaraproject/DeviceSwap"
+          },
+          "isNew": true
+        },
+        {
+          "name": "geofencing-subscriptions",
+          "targetVersion": "0.4.0",
+          "maturity": "initial",
+          "currentVersion": "0.4.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-02-05",
+            "url": "https://github.com/camaraproject/DeviceLocation/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/DeviceLocation/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-10",
+          "repository": {
+            "name": "DeviceLocation",
+            "url": "https://github.com/camaraproject/DeviceLocation"
+          },
+          "isNew": false
+        },
+        {
+          "name": "kyc-age-verification",
+          "targetVersion": "0.1.0",
+          "maturity": "initial",
+          "currentVersion": "0.1.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-02-13",
+            "url": "https://github.com/camaraproject/KnowYourCustomer/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/KnowYourCustomer/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-10",
+          "repository": {
+            "name": "KnowYourCustomer",
+            "url": "https://github.com/camaraproject/KnowYourCustomer"
+          },
+          "isNew": true
+        },
+        {
+          "name": "kyc-fill-in",
+          "targetVersion": "0.3.0",
+          "maturity": "initial",
+          "currentVersion": "0.3.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-02-13",
+            "url": "https://github.com/camaraproject/KnowYourCustomer/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/KnowYourCustomer/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-10",
+          "repository": {
+            "name": "KnowYourCustomer",
+            "url": "https://github.com/camaraproject/KnowYourCustomer"
+          },
+          "isNew": false
+        },
+        {
+          "name": "kyc-match",
+          "targetVersion": "0.3.0",
+          "maturity": "initial",
+          "currentVersion": "0.3.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-02-13",
+            "url": "https://github.com/camaraproject/KnowYourCustomer/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/KnowYourCustomer/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-10",
+          "repository": {
+            "name": "KnowYourCustomer",
+            "url": "https://github.com/camaraproject/KnowYourCustomer"
+          },
+          "isNew": false
+        },
+        {
+          "name": "kyc-tenure",
+          "targetVersion": "0.1.0",
+          "maturity": "initial",
+          "currentVersion": "0.1.0",
+          "preRelease": {
+            "tag": "r1.1",
+            "date": "2025-01-24",
+            "url": "https://github.com/camaraproject/Tenure/releases/tag/r1.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r1.2",
+            "url": "https://github.com/camaraproject/Tenure/releases/tag/r1.2"
+          },
+          "m4Date": "2025-03-11",
+          "repository": {
+            "name": "Tenure",
+            "url": "https://github.com/camaraproject/Tenure"
+          },
+          "isNew": true
+        },
+        {
+          "name": "location-retrieval",
+          "targetVersion": "0.4.0",
+          "maturity": "initial",
+          "currentVersion": "0.4.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-02-05",
+            "url": "https://github.com/camaraproject/DeviceLocation/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/DeviceLocation/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-10",
+          "repository": {
+            "name": "DeviceLocation",
+            "url": "https://github.com/camaraproject/DeviceLocation"
+          },
+          "isNew": false
+        },
+        {
+          "name": "location-verification",
+          "targetVersion": "2.0.0",
+          "maturity": "stable",
+          "currentVersion": "2.0.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-02-05",
+            "url": "https://github.com/camaraproject/DeviceLocation/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/DeviceLocation/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-10",
+          "repository": {
+            "name": "DeviceLocation",
+            "url": "https://github.com/camaraproject/DeviceLocation"
+          },
+          "isNew": false
+        },
+        {
+          "name": "number-recycling",
+          "targetVersion": "0.1.1",
+          "maturity": "initial",
+          "currentVersion": "0.1.1",
+          "preRelease": {
+            "tag": "r1.1",
+            "date": "2025-02-18",
+            "url": "https://github.com/camaraproject/NumberRecycling/releases/tag/r1.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r1.2",
+            "url": "https://github.com/camaraproject/NumberRecycling/releases/tag/r1.2"
+          },
+          "m4Date": "2025-03-14",
+          "repository": {
+            "name": "NumberRecycling",
+            "url": "https://github.com/camaraproject/NumberRecycling"
+          },
+          "isNew": true
+        },
+        {
+          "name": "number-verification",
+          "targetVersion": "2.0.0",
+          "maturity": "stable",
+          "currentVersion": "2.0.0",
+          "preRelease": {
+            "tag": "r2.2",
+            "date": "2025-02-20",
+            "url": "https://github.com/camaraproject/NumberVerification/releases/tag/r2.2"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.4",
+            "url": "https://github.com/camaraproject/NumberVerification/releases/tag/r2.4"
+          },
+          "m4Date": "2025-03-20",
+          "repository": {
+            "name": "NumberVerification",
+            "url": "https://github.com/camaraproject/NumberVerification"
+          },
+          "isNew": false
+        },
+        {
+          "name": "one-time-password-sms",
+          "targetVersion": "1.1.0",
+          "maturity": "stable",
+          "currentVersion": "1.1.0",
+          "preRelease": {
+            "tag": "r2.2",
+            "date": "2025-02-19",
+            "url": "https://github.com/camaraproject/OTPValidation/releases/tag/r2.2"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.3",
+            "url": "https://github.com/camaraproject/OTPValidation/releases/tag/r2.3"
+          },
+          "m4Date": "2025-03-11",
+          "repository": {
+            "name": "OTPValidation",
+            "url": "https://github.com/camaraproject/OTPValidation"
+          },
+          "isNew": false
+        },
+        {
+          "name": "population-density-data",
+          "targetVersion": "0.2.0",
+          "maturity": "initial",
+          "currentVersion": "0.2.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-02-10",
+            "url": "https://github.com/camaraproject/PopulationDensityData/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/PopulationDensityData/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-14",
+          "repository": {
+            "name": "PopulationDensityData",
+            "url": "https://github.com/camaraproject/PopulationDensityData"
+          },
+          "isNew": false
+        },
+        {
+          "name": "qod-provisioning",
+          "targetVersion": "0.2.0",
+          "maturity": "initial",
+          "currentVersion": "0.2.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-02-10",
+            "url": "https://github.com/camaraproject/QualityOnDemand/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/QualityOnDemand/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-11",
+          "repository": {
+            "name": "QualityOnDemand",
+            "url": "https://github.com/camaraproject/QualityOnDemand"
+          },
+          "isNew": false
+        },
+        {
+          "name": "qos-profiles",
+          "targetVersion": "1.0.0",
+          "maturity": "stable",
+          "currentVersion": "1.0.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-02-10",
+            "url": "https://github.com/camaraproject/QualityOnDemand/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/QualityOnDemand/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-11",
+          "repository": {
+            "name": "QualityOnDemand",
+            "url": "https://github.com/camaraproject/QualityOnDemand"
+          },
+          "isNew": false
+        },
+        {
+          "name": "quality-on-demand",
+          "targetVersion": "1.0.0",
+          "maturity": "stable",
+          "currentVersion": "1.0.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-02-10",
+            "url": "https://github.com/camaraproject/QualityOnDemand/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/QualityOnDemand/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-11",
+          "repository": {
+            "name": "QualityOnDemand",
+            "url": "https://github.com/camaraproject/QualityOnDemand"
+          },
+          "isNew": false
+        },
+        {
+          "name": "region-device-count",
+          "targetVersion": "0.1.0",
+          "maturity": "initial",
+          "currentVersion": "0.1.0",
+          "preRelease": {
+            "tag": "r1.1",
+            "date": "2025-02-13",
+            "url": "https://github.com/camaraproject/RegionDeviceCount/releases/tag/r1.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r1.2",
+            "url": "https://github.com/camaraproject/RegionDeviceCount/releases/tag/r1.2"
+          },
+          "m4Date": "2025-03-12",
+          "repository": {
+            "name": "RegionDeviceCount",
+            "url": "https://github.com/camaraproject/RegionDeviceCount"
+          },
+          "isNew": true
+        },
+        {
+          "name": "sim-swap",
+          "targetVersion": "2.0.0",
+          "maturity": "stable",
+          "currentVersion": "2.0.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-02-13",
+            "url": "https://github.com/camaraproject/SimSwap/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/SimSwap/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-13",
+          "repository": {
+            "name": "SimSwap",
+            "url": "https://github.com/camaraproject/SimSwap"
+          },
+          "isNew": false
+        },
+        {
+          "name": "sim-swap-subscriptions",
+          "targetVersion": "0.2.0",
+          "maturity": "initial",
+          "currentVersion": "0.2.0",
+          "preRelease": {
+            "tag": "r2.1",
+            "date": "2025-02-13",
+            "url": "https://github.com/camaraproject/SimSwap/releases/tag/r2.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/SimSwap/releases/tag/r2.2"
+          },
+          "m4Date": "2025-03-13",
+          "repository": {
+            "name": "SimSwap",
+            "url": "https://github.com/camaraproject/SimSwap"
+          },
+          "isNew": false
+        },
+        {
+          "name": "webrtc-call-handling",
+          "targetVersion": "0.2.0",
+          "maturity": "initial",
+          "currentVersion": "0.2.0",
+          "preRelease": {
+            "tag": "r1.1",
+            "date": "2025-02-17",
+            "url": "https://github.com/camaraproject/WebRTC/releases/tag/r1.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r1.2",
+            "url": "https://github.com/camaraproject/WebRTC/releases/tag/r1.2"
+          },
+          "m4Date": "2025-03-18",
+          "repository": {
+            "name": "WebRTC",
+            "url": "https://github.com/camaraproject/WebRTC"
+          },
+          "isNew": true
+        },
+        {
+          "name": "webrtc-events",
+          "targetVersion": "0.1.0-rc.1",
+          "maturity": "initial",
+          "currentVersion": "0.1.0-rc.1",
+          "preRelease": {
+            "tag": "r1.1",
+            "date": "2025-02-17",
+            "url": "https://github.com/camaraproject/WebRTC/releases/tag/r1.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r1.2",
+            "url": "https://github.com/camaraproject/WebRTC/releases/tag/r1.2"
+          },
+          "m4Date": "2025-03-18",
+          "repository": {
+            "name": "WebRTC",
+            "url": "https://github.com/camaraproject/WebRTC"
+          },
+          "isNew": true
+        },
+        {
+          "name": "webrtc-events-subscription",
+          "targetVersion": "0.1.0",
+          "maturity": "initial",
+          "currentVersion": "0.1.0",
+          "preRelease": null,
+          "m4Release": {
+            "type": "release",
+            "tag": "r1.2",
+            "url": "https://github.com/camaraproject/WebRTC/releases/tag/r1.2"
+          },
+          "m4Date": "2025-03-18",
+          "repository": {
+            "name": "WebRTC",
+            "url": "https://github.com/camaraproject/WebRTC"
+          },
+          "isNew": true
+        },
+        {
+          "name": "webrtc-notification-channel",
+          "targetVersion": "0.1.1",
+          "maturity": "initial",
+          "currentVersion": "0.1.1",
+          "preRelease": null,
+          "m4Release": {
+            "type": "release",
+            "tag": "r1.2",
+            "url": "https://github.com/camaraproject/WebRTC/releases/tag/r1.2"
+          },
+          "m4Date": "2025-03-18",
+          "repository": {
+            "name": "WebRTC",
+            "url": "https://github.com/camaraproject/WebRTC"
+          },
+          "isNew": true
+        },
+        {
+          "name": "webrtc-registration",
+          "targetVersion": "0.2.0",
+          "maturity": "initial",
+          "currentVersion": "0.2.0",
+          "preRelease": {
+            "tag": "r1.1",
+            "date": "2025-02-17",
+            "url": "https://github.com/camaraproject/WebRTC/releases/tag/r1.1"
+          },
+          "m4Release": {
+            "type": "release",
+            "tag": "r1.2",
+            "url": "https://github.com/camaraproject/WebRTC/releases/tag/r1.2"
+          },
+          "m4Date": "2025-03-18",
+          "repository": {
+            "name": "WebRTC",
+            "url": "https://github.com/camaraproject/WebRTC"
+          },
+          "isNew": true
+        }
+      ]
+    };
+    // END EMBEDDED JSON DATA
+    
+    let currentData = null;
+    let filteredData = null;
+    let currentSort = { column: -1, ascending: true };
+    
+    function initializeData() {
+      displayData(embeddedData);
+    }
+    
+    function displayData(data) {
+      currentData = data;
+      filteredData = data.apis.slice(); // Create a copy for filtering
+      
+      // Update metadata
+      const metadata = data.metadata;
+      const metadataDiv = document.getElementById('metadata');
+      const generated = new Date(metadata.generated).toLocaleString();
+      metadataDiv.innerHTML = `
+        <strong>${metadata.metaRelease} API Status</strong><br>
+        Generated: ${generated} | Total APIs: ${metadata.totalAPIs} | Report Type: ${metadata.reportType}
+      `;
+      
+      // Show Fall25 note if applicable
+      if (metadata.metaRelease === 'Fall25') {
+        document.getElementById('fall25Note').classList.remove('hidden');
+      } else {
+        document.getElementById('fall25Note').classList.add('hidden');
+      }
+      
+      // Apply filters and render
+      applyFilters();
+      
+      // Reset sort
+      currentSort = { column: -1, ascending: true };
+      updateSortIndicators(-1);
+    }
+    
+    function renderTable(apis) {
+      // Build table
+      const tbody = document.getElementById('tableBody');
+      tbody.innerHTML = '';
+      
+      apis.forEach(api => {
+        const row = document.createElement('tr');
+        
+        // Format cells
+        const preReleaseCell = api.preRelease ? 
+          `<a href="${api.preRelease.url}">${api.preRelease.tag}</a>` : '-';
+        
+        let m4ReleaseCell = '-';
+        if (api.m4Release) {
+          if (api.m4Release.type === 'pr') {
+            m4ReleaseCell = `PR <a href="${api.m4Release.url}">#${api.m4Release.number}</a>`;
+          } else {
+            m4ReleaseCell = `<a href="${api.m4Release.url}">${api.m4Release.tag}</a>`;
+          }
+        }
+        
+        const repoCell = `<a href="${api.repository.url}">${api.repository.name}</a>`;
+        
+        row.innerHTML = `
+          <td>${api.name}</td>
+          <td>${api.targetVersion}</td>
+          <td>${api.maturity}</td>
+          <td>${api.currentVersion || '-'}</td>
+          <td>${preReleaseCell}</td>
+          <td>${api.preRelease?.date || '-'}</td>
+          <td>${m4ReleaseCell}</td>
+          <td>${api.m4Date || '-'}</td>
+          <td>${repoCell}</td>
+          <td>${api.isNew ? 'Yes' : 'No'}</td>
+        `;
+        
+        tbody.appendChild(row);
+      });
+      
+      // Update counter
+      updateResultsCounter(apis.length);
+    }
+    
+    function applyFilters() {
+      if (!currentData) return;
+      
+      // Get filter values
+      const apiNameFilter = document.getElementById('filterApiName').value.toLowerCase();
+      const maturityFilter = document.getElementById('filterMaturity').value.toLowerCase();
+      const newFilter = document.getElementById('filterNew').value.toLowerCase();
+      const repositoryFilter = document.getElementById('filterRepository').value.toLowerCase();
+      const versionMinFilter = document.getElementById('filterVersionMin').value;
+      const versionMaxFilter = document.getElementById('filterVersionMax').value;
+      const m3DateFromFilter = document.getElementById('filterM3DateFrom').value;
+      const m3DateToFilter = document.getElementById('filterM3DateTo').value;
+      
+      // Filter data
+      filteredData = currentData.apis.filter(api => {
+        // API Name filter
+        if (apiNameFilter && !api.name.toLowerCase().includes(apiNameFilter)) {
+          return false;
+        }
+        
+        // Maturity filter
+        if (maturityFilter && api.maturity.toLowerCase() !== maturityFilter) {
+          return false;
+        }
+        
+        // New filter
+        if (newFilter) {
+          const isNew = api.isNew ? 'yes' : 'no';
+          if (isNew !== newFilter) {
+            return false;
+          }
+        }
+        
+        // Repository filter
+        if (repositoryFilter && !api.repository.name.toLowerCase().includes(repositoryFilter)) {
+          return false;
+        }
+        
+        // Version range filters
+        if (versionMinFilter && api.targetVersion) {
+          if (compareVersions(api.targetVersion, versionMinFilter) < 0) {
+            return false;
+          }
+        }
+        if (versionMaxFilter && api.targetVersion) {
+          if (compareVersions(api.targetVersion, versionMaxFilter) > 0) {
+            return false;
+          }
+        }
+        
+        // M3 Date range filters
+        if (m3DateFromFilter && api.preRelease?.date) {
+          if (new Date(api.preRelease.date) < new Date(m3DateFromFilter)) {
+            return false;
+          }
+        }
+        if (m3DateToFilter && api.preRelease?.date) {
+          if (new Date(api.preRelease.date) > new Date(m3DateToFilter)) {
+            return false;
+          }
+        }
+        
+        return true;
+      });
+      
+      // Render filtered data
+      renderTable(filteredData);
+    }
+    
+    function clearAllFilters() {
+      document.getElementById('filterApiName').value = '';
+      document.getElementById('filterMaturity').value = '';
+      document.getElementById('filterNew').value = '';
+      document.getElementById('filterRepository').value = '';
+      document.getElementById('filterVersionMin').value = '';
+      document.getElementById('filterVersionMax').value = '';
+      document.getElementById('filterM3DateFrom').value = '';
+      document.getElementById('filterM3DateTo').value = '';
+      
+      applyFilters();
+    }
+    
+    function updateResultsCounter(count) {
+      const counter = document.getElementById('resultsCounter');
+      const total = currentData ? currentData.apis.length : 0;
+      
+      if (count === 0) {
+        counter.textContent = 'No APIs match the current filters';
+        counter.classList.add('no-results');
+      } else if (count === total) {
+        counter.textContent = `Showing all ${total} APIs`;
+        counter.classList.remove('no-results');
+      } else {
+        counter.textContent = `Showing ${count} of ${total} APIs`;
+        counter.classList.remove('no-results');
+      }
+      
+      counter.classList.remove('hidden');
+    }
+    
+    function sortTable(columnIndex) {
+      if (!filteredData || filteredData.length === 0) return;
+      
+      const table = document.getElementById('apiTable');
+      const tbody = table.querySelector('tbody');
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      
+      // Toggle sort direction if same column
+      if (currentSort.column === columnIndex) {
+        currentSort.ascending = !currentSort.ascending;
+      } else {
+        currentSort.column = columnIndex;
+        currentSort.ascending = true;
+      }
+      
+      rows.sort((a, b) => {
+        let aValue = a.cells[columnIndex].textContent.trim();
+        let bValue = b.cells[columnIndex].textContent.trim();
+        
+        // Handle special values
+        if (aValue === '-') aValue = '';
+        if (bValue === '-') bValue = '';
+        
+        // Special handling for different column types
+        let result = 0;
+        
+        if (columnIndex === 1 || columnIndex === 3) {
+          // Version columns
+          result = compareVersions(aValue, bValue);
+        } else if (columnIndex === 5 || columnIndex === 7) {
+          // Date columns
+          result = compareDates(aValue, bValue);
+        } else if (columnIndex === 9) {
+          // New column (Yes/No)
+          result = (aValue === 'Yes' ? 1 : 0) - (bValue === 'Yes' ? 1 : 0);
+        } else {
+          // String comparison
+          result = aValue.localeCompare(bValue);
+        }
+        
+        return currentSort.ascending ? result : -result;
+      });
+      
+      // Re-append sorted rows
+      rows.forEach(row => tbody.appendChild(row));
+      
+      // Update sort indicators
+      updateSortIndicators(columnIndex);
+    }
+    
+    function compareVersions(a, b) {
+      if (!a && !b) return 0;
+      if (!a) return -1;
+      if (!b) return 1;
+      
+      const partsA = a.split(/[.-]/);
+      const partsB = b.split(/[.-]/);
+      
+      for (let i = 0; i < Math.max(partsA.length, partsB.length); i++) {
+        const partA = parseInt(partsA[i] || '0');
+        const partB = parseInt(partsB[i] || '0');
+        if (isNaN(partA) || isNaN(partB)) {
+          // Handle non-numeric parts (like rc, alpha)
+          const strA = partsA[i] || '';
+          const strB = partsB[i] || '';
+          const comp = strA.localeCompare(strB);
+          if (comp !== 0) return comp;
+        } else if (partA !== partB) {
+          return partA - partB;
+        }
+      }
+      return 0;
+    }
+    
+    function compareDates(a, b) {
+      if (!a && !b) return 0;
+      if (!a) return -1;
+      if (!b) return 1;
+      return new Date(a) - new Date(b);
+    }
+    
+    function updateSortIndicators(columnIndex) {
+      const headers = document.querySelectorAll('th');
+      headers.forEach((header, index) => {
+        const arrow = header.querySelector('.sort-arrow');
+        if (arrow) {
+          arrow.classList.remove('active-asc', 'active-desc');
+          if (index === columnIndex) {
+            arrow.classList.add(currentSort.ascending ? 'active-asc' : 'active-desc');
+          }
+        }
+      });
+    }
+    
+    function exportToCSV() {
+      if (!currentData || !filteredData) return;
+      
+      const table = document.getElementById('apiTable');
+      const rows = table.querySelectorAll('tr');
+      let csv = [];
+      
+      // Get headers
+      const headers = Array.from(rows[0].cells).map(cell => 
+        cell.textContent.replace(/[⇅↑↓]/g, '').trim()
+      );
+      csv.push(headers.join(','));
+      
+      // Get data rows (only visible/filtered ones)
+      const tbody = table.querySelector('tbody');
+      const dataRows = tbody.querySelectorAll('tr');
+      
+      dataRows.forEach(row => {
+        const rowData = Array.from(row.cells).map(cell => {
+          let text = cell.textContent.trim();
+          // Quote if contains comma or newline
+          if (text.includes(',') || text.includes('\n')) {
+            text = '"' + text.replace(/"/g, '""') + '"';
+          }
+          return text;
+        });
+        csv.push(rowData.join(','));
+      });
+      
+      // Download
+      const blob = new Blob([csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `api-status-${currentData.metadata.metaRelease.toLowerCase()}-${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+    
+    function exportToJSON() {
+      if (!currentData || !filteredData) return;
+      
+      // Create export data with filtered APIs
+      const exportData = {
+        ...currentData,
+        apis: filteredData,
+        metadata: {
+          ...currentData.metadata,
+          totalAPIs: filteredData.length,
+          filtered: true
+        }
+      };
+      
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `api-status-${currentData.metadata.metaRelease.toLowerCase()}-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+    
+    // Initialize on page load
+    window.addEventListener('load', initializeData);
+  </script>
+</body>
+</html>
