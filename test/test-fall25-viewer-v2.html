@@ -329,11 +329,41 @@
     // EMBEDDED JSON DATA - This will be replaced by the generator script
     const embeddedData = {
       "metadata": {
-        "generated": "2025-09-19T09:08:19.678Z",
+        "generated": "2025-09-21T18:16:24.931Z",
         "metaRelease": "Fall25",
         "reportType": "fall25",
         "totalAPIs": 60,
-        "includesPrerelease": true
+        "includesPrerelease": true,
+        "landscapeVersion": "1.0.0",
+        "landscapeUpdated": "2025-09-21",
+        "portfolioCategories": [
+          "Authentication and Fraud Prevention",
+          "Communication Quality",
+          "Communication Services",
+          "Computing Services",
+          "Device Information",
+          "Location Services",
+          "Payments and Charging",
+          "Service Management"
+        ],
+        "statistics": {
+          "totalApis": 60,
+          "categorized": 60,
+          "withWebsiteUrl": 48,
+          "withTooltip": 60,
+          "missingInLandscape": 0,
+          "unusedInLandscape": 0
+        },
+        "categoryDistribution": {
+          "Computing Services": 8,
+          "Communication Quality": 16,
+          "Payments and Charging": 4,
+          "Communication Services": 5,
+          "Authentication and Fraud Prevention": 13,
+          "Service Management": 1,
+          "Device Information": 7,
+          "Location Services": 6
+        }
       },
       "apis": [
         {
@@ -352,7 +382,10 @@
             "name": "ApplicationEndpointDiscovery",
             "url": "https://github.com/camaraproject/ApplicationEndpointDiscovery"
           },
-          "isNew": true
+          "isNew": true,
+          "portfolioCategory": "Computing Services",
+          "websiteUrl": "https://camaraproject.org/application-endpoint-discovery/",
+          "tooltip": "Locating the nearest edge cloud zone but also directly linking to the application endpoints"
         },
         {
           "name": "application-endpoint-registration",
@@ -370,7 +403,10 @@
             "name": "ApplicationEndpointRegistration",
             "url": "https://github.com/camaraproject/ApplicationEndpointRegistration"
           },
-          "isNew": true
+          "isNew": true,
+          "portfolioCategory": "Computing Services",
+          "websiteUrl": null,
+          "tooltip": "Register application endpoints"
         },
         {
           "name": "application-profiles",
@@ -388,7 +424,10 @@
             "name": "ApplicationProfiles",
             "url": "https://github.com/camaraproject/ApplicationProfiles"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Communication Quality",
+          "websiteUrl": "https://camaraproject.org/application-profiles/",
+          "tooltip": "Share information about applications relevant for network related decision making"
         },
         {
           "name": "blockchain-public-address",
@@ -406,7 +445,10 @@
             "name": "BlockchainPublicAddress",
             "url": "https://github.com/camaraproject/BlockchainPublicAddress"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Payments and Charging",
+          "websiteUrl": "https://camaraproject.org/blockchain-public-address/",
+          "tooltip": "Manage a blockchain public address associated to a phone number"
         },
         {
           "name": "blockchain-public-address-validation",
@@ -424,7 +466,10 @@
             "name": "BlockchainPublicAddress",
             "url": "https://github.com/camaraproject/BlockchainPublicAddress"
           },
-          "isNew": true
+          "isNew": true,
+          "portfolioCategory": "Payments and Charging",
+          "websiteUrl": null,
+          "tooltip": "Validate blockchain addresses"
         },
         {
           "name": "brand-registration",
@@ -442,7 +487,10 @@
             "name": "VerifiedCaller",
             "url": "https://github.com/camaraproject/VerifiedCaller"
           },
-          "isNew": true
+          "isNew": true,
+          "portfolioCategory": "Communication Services",
+          "websiteUrl": null,
+          "tooltip": "Register brand for verified communications"
         },
         {
           "name": "call-forwarding-signal",
@@ -460,7 +508,10 @@
             "name": "CallForwardingSignal",
             "url": "https://github.com/camaraproject/CallForwardingSignal"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Authentication and Fraud Prevention",
+          "websiteUrl": "https://camaraproject.org/call-forwarding-signal/",
+          "tooltip": "Determine if a \"call forwarding\" service is enabled"
         },
         {
           "name": "carrier-billing",
@@ -478,7 +529,10 @@
             "name": "CarrierBillingCheckOut",
             "url": "https://github.com/camaraproject/CarrierBillingCheckOut"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Payments and Charging",
+          "websiteUrl": "https://camaraproject.org/carrier-billing/",
+          "tooltip": "Purchase, pay, and follow up on fulfilment of products"
         },
         {
           "name": "carrier-billing-refund",
@@ -496,7 +550,10 @@
             "name": "CarrierBillingCheckOut",
             "url": "https://github.com/camaraproject/CarrierBillingCheckOut"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Payments and Charging",
+          "websiteUrl": "https://camaraproject.org/carrier-billing-refund/",
+          "tooltip": "Perform a refund over a given payment"
         },
         {
           "name": "connected-network-type",
@@ -514,7 +571,10 @@
             "name": "ConnectedNetworkType",
             "url": "https://github.com/camaraproject/ConnectedNetworkType"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Communication Quality",
+          "websiteUrl": "https://camaraproject.org/connected-network-type/",
+          "tooltip": "Query the device's connected network type"
         },
         {
           "name": "connected-network-type-subscriptions",
@@ -532,7 +592,10 @@
             "name": "ConnectedNetworkType",
             "url": "https://github.com/camaraproject/ConnectedNetworkType"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Communication Quality",
+          "websiteUrl": "https://camaraproject.org/connected-network-type-subscriptions/",
+          "tooltip": "Receive notifications when the connected network type changes"
         },
         {
           "name": "connectivity-insights",
@@ -550,7 +613,10 @@
             "name": "ConnectivityInsights",
             "url": "https://github.com/camaraproject/ConnectivityInsights"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Communication Quality",
+          "websiteUrl": "https://camaraproject.org/connectivity-insights/",
+          "tooltip": "Get information if the QoS threshold has breached"
         },
         {
           "name": "connectivity-insights-subscriptions",
@@ -568,7 +634,10 @@
             "name": "ConnectivityInsights",
             "url": "https://github.com/camaraproject/ConnectivityInsights"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Communication Quality",
+          "websiteUrl": "https://camaraproject.org/connectivity-insights-subscriptions/",
+          "tooltip": "Alerts the consumers if and when the QoS threshold has breached"
         },
         {
           "name": "consent-info",
@@ -586,7 +655,10 @@
             "name": "ConsentInfo",
             "url": "https://github.com/camaraproject/ConsentInfo"
           },
-          "isNew": true
+          "isNew": true,
+          "portfolioCategory": "Service Management",
+          "websiteUrl": null,
+          "tooltip": "Determine the need for consent and get current consent"
         },
         {
           "name": "customer-insights",
@@ -604,7 +676,10 @@
             "name": "CustomerInsights",
             "url": "https://github.com/camaraproject/CustomerInsights"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Authentication and Fraud Prevention",
+          "websiteUrl": "https://camaraproject.org/customer-insights/",
+          "tooltip": "Provides an index or scoring related to the user's credit profile"
         },
         {
           "name": "dedicated-network",
@@ -622,7 +697,10 @@
             "name": "DedicatedNetworks",
             "url": "https://github.com/camaraproject/DedicatedNetworks"
           },
-          "isNew": true
+          "isNew": true,
+          "portfolioCategory": "Communication Quality",
+          "websiteUrl": null,
+          "tooltip": "Manage dedicated private networks"
         },
         {
           "name": "dedicated-network-accesses",
@@ -640,7 +718,10 @@
             "name": "DedicatedNetworks",
             "url": "https://github.com/camaraproject/DedicatedNetworks"
           },
-          "isNew": true
+          "isNew": true,
+          "portfolioCategory": "Communication Quality",
+          "websiteUrl": null,
+          "tooltip": "Control access to dedicated networks"
         },
         {
           "name": "dedicated-network-profiles",
@@ -658,7 +739,10 @@
             "name": "DedicatedNetworks",
             "url": "https://github.com/camaraproject/DedicatedNetworks"
           },
-          "isNew": true
+          "isNew": true,
+          "portfolioCategory": "Communication Quality",
+          "websiteUrl": null,
+          "tooltip": "Configure dedicated network profiles"
         },
         {
           "name": "device-data-volume",
@@ -676,7 +760,10 @@
             "name": "DeviceDataVolume",
             "url": "https://github.com/camaraproject/DeviceDataVolume"
           },
-          "isNew": true
+          "isNew": true,
+          "portfolioCategory": "Device Information",
+          "websiteUrl": "https://camaraproject.org/device-data-volume/",
+          "tooltip": "Provide insights into the customer's data usage status"
         },
         {
           "name": "device-data-volume-subscriptions",
@@ -694,7 +781,10 @@
             "name": "DeviceDataVolume",
             "url": "https://github.com/camaraproject/DeviceDataVolume"
           },
-          "isNew": true
+          "isNew": true,
+          "portfolioCategory": "Device Information",
+          "websiteUrl": "https://camaraproject.org/device-data-volume-subscriptions/",
+          "tooltip": "Receive notifications regarding data volume usage thresholds"
         },
         {
           "name": "device-identifier",
@@ -712,7 +802,10 @@
             "name": "DeviceIdentifier",
             "url": "https://github.com/camaraproject/DeviceIdentifier"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Authentication and Fraud Prevention",
+          "websiteUrl": "https://camaraproject.org/device-identifier/",
+          "tooltip": "Check the identity of the subscribers' device"
         },
         {
           "name": "device-reachability-status",
@@ -730,7 +823,10 @@
             "name": "DeviceReachabilityStatus",
             "url": "https://github.com/camaraproject/DeviceReachabilityStatus"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Device Information",
+          "websiteUrl": "https://camaraproject.org/device-reachability-status/",
+          "tooltip": "Check the network connection status of a device"
         },
         {
           "name": "device-reachability-status-subscriptions",
@@ -748,7 +844,10 @@
             "name": "DeviceReachabilityStatus",
             "url": "https://github.com/camaraproject/DeviceReachabilityStatus"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Device Information",
+          "websiteUrl": "https://camaraproject.org/device-reachability-status-subscriptions/",
+          "tooltip": "Get notifications if the network connection status of a device changes"
         },
         {
           "name": "device-roaming-status",
@@ -766,7 +865,10 @@
             "name": "DeviceRoamingStatus",
             "url": "https://github.com/camaraproject/DeviceRoamingStatus"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Device Information",
+          "websiteUrl": "https://camaraproject.org/device-roaming-status/",
+          "tooltip": "Check the roaming status of a device"
         },
         {
           "name": "device-roaming-status-subscriptions",
@@ -784,7 +886,10 @@
             "name": "DeviceRoamingStatus",
             "url": "https://github.com/camaraproject/DeviceRoamingStatus"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Device Information",
+          "websiteUrl": "https://camaraproject.org/device-roaming-status-subscriptions/",
+          "tooltip": "Get notifications if the roaming status of a device changes"
         },
         {
           "name": "device-swap",
@@ -802,7 +907,10 @@
             "name": "DeviceSwap",
             "url": "https://github.com/camaraproject/DeviceSwap"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Authentication and Fraud Prevention",
+          "websiteUrl": "https://camaraproject.org/device-swap/",
+          "tooltip": "Check if the MSISDN has had a change of device in the last 30 days"
         },
         {
           "name": "energy-footprint-notification",
@@ -820,7 +928,10 @@
             "name": "EnergyFootprintNotification",
             "url": "https://github.com/camaraproject/EnergyFootprintNotification"
           },
-          "isNew": true
+          "isNew": true,
+          "portfolioCategory": "Computing Services",
+          "websiteUrl": "https://camaraproject.org/energy-footprint-notification/",
+          "tooltip": "Provide information about the E2E energy consumption and carbon footprint for a specified service"
         },
         {
           "name": "geofencing-subscriptions",
@@ -838,7 +949,10 @@
             "name": "DeviceLocation",
             "url": "https://github.com/camaraproject/DeviceLocation"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Location Services",
+          "websiteUrl": "https://camaraproject.org/geofencing-subscriptions/",
+          "tooltip": "Get notifications if a device reaches an area"
         },
         {
           "name": "knowledge-base",
@@ -856,7 +970,10 @@
             "name": "ModelAsAService",
             "url": "https://github.com/camaraproject/ModelAsAService"
           },
-          "isNew": true
+          "isNew": true,
+          "portfolioCategory": "Computing Services",
+          "websiteUrl": null,
+          "tooltip": "Build and manage personalized knowledge bases"
         },
         {
           "name": "kyc-age-verification",
@@ -874,7 +991,10 @@
             "name": "KnowYourCustomerAgeVerification",
             "url": "https://github.com/camaraproject/KnowYourCustomerAgeVerification"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Authentication and Fraud Prevention",
+          "websiteUrl": "https://camaraproject.org/know-your-customer-age-verification/",
+          "tooltip": "Allows service providers to validate age information with operators"
         },
         {
           "name": "kyc-fill-in",
@@ -892,7 +1012,10 @@
             "name": "KnowYourCustomerFill-in",
             "url": "https://github.com/camaraproject/KnowYourCustomerFill-in"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Authentication and Fraud Prevention",
+          "websiteUrl": "https://camaraproject.org/know-your-customer-fill-in/",
+          "tooltip": "Fill in web dialogues using operator data"
         },
         {
           "name": "kyc-match",
@@ -910,25 +1033,31 @@
             "name": "KnowYourCustomerMatch",
             "url": "https://github.com/camaraproject/KnowYourCustomerMatch"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Authentication and Fraud Prevention",
+          "websiteUrl": "https://camaraproject.org/know-your-customer-match/",
+          "tooltip": "Allows service providers to validate user information with operators"
         },
         {
           "name": "kyc-tenure",
           "targetVersion": "0.2.0",
           "maturity": "initial",
-          "currentVersion": "0.2.0-rc.1",
-          "preRelease": {
-            "tag": "r2.1",
-            "date": "2025-07-17",
-            "url": "https://github.com/camaraproject/Tenure/releases/tag/r2.1"
+          "currentVersion": "0.2.0",
+          "preRelease": null,
+          "m4Release": {
+            "type": "release",
+            "tag": "r2.2",
+            "url": "https://github.com/camaraproject/Tenure/releases/tag/r2.2"
           },
-          "m4Release": null,
-          "m4Date": null,
+          "m4Date": "2025-09-19",
           "repository": {
             "name": "Tenure",
             "url": "https://github.com/camaraproject/Tenure"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Authentication and Fraud Prevention",
+          "websiteUrl": "https://camaraproject.org/know-your-customer-tenure/",
+          "tooltip": "Verifying the length of tenure for a mobile user who is bound to a mobile number with their current mobile operator"
         },
         {
           "name": "location-retrieval",
@@ -946,7 +1075,10 @@
             "name": "DeviceLocation",
             "url": "https://github.com/camaraproject/DeviceLocation"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Location Services",
+          "websiteUrl": "https://camaraproject.org/location-retrieval/",
+          "tooltip": "Provide the location of a device"
         },
         {
           "name": "location-verification",
@@ -964,7 +1096,10 @@
             "name": "DeviceLocation",
             "url": "https://github.com/camaraproject/DeviceLocation"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Location Services",
+          "websiteUrl": "https://camaraproject.org/location-verification/",
+          "tooltip": "Check the location of a device"
         },
         {
           "name": "most-frequent-location",
@@ -982,7 +1117,10 @@
             "name": "MostFrequentLocation",
             "url": "https://github.com/camaraproject/MostFrequentLocation"
           },
-          "isNew": true
+          "isNew": true,
+          "portfolioCategory": "Location Services",
+          "websiteUrl": "https://camaraproject.org/most-frequent-location/",
+          "tooltip": "Provides validation, in terms of scoring, of the user's expected home area"
         },
         {
           "name": "network-slice-booking",
@@ -1000,7 +1138,10 @@
             "name": "NetworkSliceBooking",
             "url": "https://github.com/camaraproject/NetworkSliceBooking"
           },
-          "isNew": true
+          "isNew": true,
+          "portfolioCategory": "Communication Quality",
+          "websiteUrl": "https://camaraproject.org/network-slice-booking/",
+          "tooltip": "Reserve, dynamically provision, query, dynamically delete a slice"
         },
         {
           "name": "number-recycling",
@@ -1018,7 +1159,10 @@
             "name": "NumberRecycling",
             "url": "https://github.com/camaraproject/NumberRecycling"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Authentication and Fraud Prevention",
+          "websiteUrl": "https://camaraproject.org/number-recycling/",
+          "tooltip": "Check whether the subscriber of the phone number has changed"
         },
         {
           "name": "number-verification",
@@ -1036,7 +1180,10 @@
             "name": "NumberVerification",
             "url": "https://github.com/camaraproject/NumberVerification"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Authentication and Fraud Prevention",
+          "websiteUrl": "https://camaraproject.org/number-verification/",
+          "tooltip": "Allows users to verify the phone number of the connected device"
         },
         {
           "name": "one-time-password-sms",
@@ -1054,7 +1201,10 @@
             "name": "OTPValidation",
             "url": "https://github.com/camaraproject/OTPValidation"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Authentication and Fraud Prevention",
+          "websiteUrl": "https://camaraproject.org/one-time-password-sms/",
+          "tooltip": "To offer secure user authentication to service providers"
         },
         {
           "name": "optimal-edge-discovery",
@@ -1072,7 +1222,10 @@
             "name": "OptimalEdgeDiscovery",
             "url": "https://github.com/camaraproject/OptimalEdgeDiscovery"
           },
-          "isNew": true
+          "isNew": true,
+          "portfolioCategory": "Computing Services",
+          "websiteUrl": null,
+          "tooltip": "Find optimal edge computing locations"
         },
         {
           "name": "population-density-data",
@@ -1090,7 +1243,10 @@
             "name": "PopulationDensityData",
             "url": "https://github.com/camaraproject/PopulationDensityData"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Location Services",
+          "websiteUrl": "https://camaraproject.org/population-density-data/",
+          "tooltip": "Get dynamic population density data in a specific area for a future date & time"
         },
         {
           "name": "predictive-connectivity-data",
@@ -1108,7 +1264,10 @@
             "name": "PredictiveConnectivityData",
             "url": "https://github.com/camaraproject/PredictiveConnectivityData"
           },
-          "isNew": true
+          "isNew": true,
+          "portfolioCategory": "Communication Quality",
+          "websiteUrl": "https://camaraproject.org/predictive-connectivity-data/",
+          "tooltip": "Provides information about the connectivity along a volume/area for a future date, time and height"
         },
         {
           "name": "qa-assistant-manage",
@@ -1126,7 +1285,10 @@
             "name": "ModelAsAService",
             "url": "https://github.com/camaraproject/ModelAsAService"
           },
-          "isNew": true
+          "isNew": true,
+          "portfolioCategory": "Computing Services",
+          "websiteUrl": null,
+          "tooltip": "Quickly construct unique Q&A assistant applications"
         },
         {
           "name": "qa-assistant-service",
@@ -1144,7 +1306,10 @@
             "name": "ModelAsAService",
             "url": "https://github.com/camaraproject/ModelAsAService"
           },
-          "isNew": true
+          "isNew": true,
+          "portfolioCategory": "Computing Services",
+          "websiteUrl": null,
+          "tooltip": "Provide Q&A services to the users of the application"
         },
         {
           "name": "qos-booking",
@@ -1162,7 +1327,10 @@
             "name": "QoSBooking",
             "url": "https://github.com/camaraproject/QoSBooking"
           },
-          "isNew": true
+          "isNew": true,
+          "portfolioCategory": "Communication Quality",
+          "websiteUrl": "https://camaraproject.org/qos-booking/",
+          "tooltip": "Request an assignment of a certain QoS Profile to a certain device"
         },
         {
           "name": "qos-booking-and-assignment",
@@ -1180,7 +1348,10 @@
             "name": "QoSBooking",
             "url": "https://github.com/camaraproject/QoSBooking"
           },
-          "isNew": true
+          "isNew": true,
+          "portfolioCategory": "Communication Quality",
+          "websiteUrl": "https://camaraproject.org/qos-booking-and-assignment/",
+          "tooltip": "Request an assignment of a certain QoS Profile to a certain device"
         },
         {
           "name": "qos-profiles",
@@ -1198,7 +1369,10 @@
             "name": "QualityOnDemand",
             "url": "https://github.com/camaraproject/QualityOnDemand"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Communication Quality",
+          "websiteUrl": "https://camaraproject.org/qos-profiles/",
+          "tooltip": "Provide the ability to set certain profile of QoS"
         },
         {
           "name": "qos-provisioning",
@@ -1216,7 +1390,10 @@
             "name": "QualityOnDemand",
             "url": "https://github.com/camaraproject/QualityOnDemand"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Communication Quality",
+          "websiteUrl": "https://camaraproject.org/qod-provisioning/",
+          "tooltip": "Creating, getting, updating, removing a QoD provision for a device"
         },
         {
           "name": "quality-on-demand",
@@ -1234,7 +1411,10 @@
             "name": "QualityOnDemand",
             "url": "https://github.com/camaraproject/QualityOnDemand"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Communication Quality",
+          "websiteUrl": "https://camaraproject.org/quality-on-demand/",
+          "tooltip": "Allows users to set mobile connection quality and get notifications"
         },
         {
           "name": "region-device-count",
@@ -1252,7 +1432,10 @@
             "name": "RegionDeviceCount",
             "url": "https://github.com/camaraproject/RegionDeviceCount"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Location Services",
+          "websiteUrl": "https://camaraproject.org/region-user-count/",
+          "tooltip": "Query the number of active devices in the specified area"
         },
         {
           "name": "sim-swap",
@@ -1270,7 +1453,10 @@
             "name": "SimSwap",
             "url": "https://github.com/camaraproject/SimSwap"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Authentication and Fraud Prevention",
+          "websiteUrl": "https://camaraproject.org/sim-swap/",
+          "tooltip": "Allows users to get information on SIM pairing changes"
         },
         {
           "name": "sim-swap-subscriptions",
@@ -1288,7 +1474,10 @@
             "name": "SimSwap",
             "url": "https://github.com/camaraproject/SimSwap"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Authentication and Fraud Prevention",
+          "websiteUrl": "https://camaraproject.org/sim-swap-subscriptions/",
+          "tooltip": "Get notifications if a SIM changes"
         },
         {
           "name": "simple-edge-discovery",
@@ -1306,7 +1495,10 @@
             "name": "SimpleEdgeDiscovery",
             "url": "https://github.com/camaraproject/SimpleEdgeDiscovery"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Computing Services",
+          "websiteUrl": "https://camaraproject.org/simple-edge-discovery/",
+          "tooltip": "Discover the closest edge cloud zone to a given device"
         },
         {
           "name": "subscription-status",
@@ -1324,7 +1516,10 @@
             "name": "SubscriptionStatus",
             "url": "https://github.com/camaraproject/SubscriptionStatus"
           },
-          "isNew": true
+          "isNew": true,
+          "portfolioCategory": "Device Information",
+          "websiteUrl": null,
+          "tooltip": "Obtain the current subscription status of a certain phone number"
         },
         {
           "name": "traffic-influence",
@@ -1342,7 +1537,10 @@
             "name": "TrafficInfluence",
             "url": "https://github.com/camaraproject/TrafficInfluence"
           },
-          "isNew": true
+          "isNew": true,
+          "portfolioCategory": "Communication Quality",
+          "websiteUrl": "https://camaraproject.org/traffic-influence/",
+          "tooltip": "Modify the connection policies of devices in terms of how the traffic flows"
         },
         {
           "name": "verified-caller",
@@ -1360,7 +1558,10 @@
             "name": "VerifiedCaller",
             "url": "https://github.com/camaraproject/VerifiedCaller"
           },
-          "isNew": true
+          "isNew": true,
+          "portfolioCategory": "Communication Services",
+          "websiteUrl": "https://camaraproject.org/verified-caller/",
+          "tooltip": "Show certified information on the phone before a call is answered"
         },
         {
           "name": "webrtc-call-handling",
@@ -1382,7 +1583,10 @@
             "name": "WebRTC",
             "url": "https://github.com/camaraproject/WebRTC"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Communication Services",
+          "websiteUrl": "https://camaraproject.org/webrtc-apis/",
+          "tooltip": "Create, recover, update and terminate 1-1 voice and video sessions"
         },
         {
           "name": "webrtc-events",
@@ -1404,7 +1608,10 @@
             "name": "WebRTC",
             "url": "https://github.com/camaraproject/WebRTC"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Communication Services",
+          "websiteUrl": "https://camaraproject.org/webrtc-apis/",
+          "tooltip": "Receive events about updates of an active session or new sessions requests (incoming calls)"
         },
         {
           "name": "webrtc-registration",
@@ -1426,7 +1633,10 @@
             "name": "WebRTC",
             "url": "https://github.com/camaraproject/WebRTC"
           },
-          "isNew": false
+          "isNew": false,
+          "portfolioCategory": "Communication Services",
+          "websiteUrl": "https://camaraproject.org/webrtc-apis/",
+          "tooltip": "Manage registration and connectivity (RACM) towards MNO's IMS Network"
         }
       ]
     };
