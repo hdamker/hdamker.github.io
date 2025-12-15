@@ -1,0 +1,87 @@
+# GitHub Pages Deployment Workflow
+#
+# Triggered by project-administration after pushing content.
+# Deploys static content to GitHub Pages using GitHub-recommended actions.
+#
+# This workflow does NOT rebuild content - it serves files already committed.
+# The publish_path input allows specifying which directory to deploy (default: releases).
+
+name: Deploy to GitHub Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_repo:
+        description: 'Source repository that triggered deployment'
+        required: true
+        type: string
+      source_sha:
+        description: 'Source commit SHA'
+        required: true
+        type: string
+      publish_path:
+        description: 'Directory to publish to GitHub Pages (currently only releases is allowed)'
+        required: false
+        type: string
+        default: 'releases'
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy Pages
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Validate publish path
+        run: |
+          ALLOWED_PATHS="releases swagger-ui site-content"
+          INPUT_PATH="${{ github.event.inputs.publish_path }}"
+
+          if [[ ! " $ALLOWED_PATHS " =~ " $INPUT_PATH " ]]; then
+            echo "::error::Invalid publish_path '$INPUT_PATH'. Allowed values: $ALLOWED_PATHS"
+            echo "::error::To add new paths, update the ALLOWED_PATHS list in this workflow."
+            exit 1
+          fi
+
+          echo "Validated publish path: $INPUT_PATH"
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ github.event.inputs.publish_path }}
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Deployment summary
+        run: |
+          echo "## GitHub Pages Deployment" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Source" >> $GITHUB_STEP_SUMMARY
+          echo "- **Repository**: ${{ github.event.inputs.source_repo }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit**: ${{ github.event.inputs.source_sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Deployment" >> $GITHUB_STEP_SUMMARY
+          echo "- **Path**: ${{ github.event.inputs.publish_path }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **URL**: ${{ steps.deployment.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Triggered by**: workflow_dispatch" >> $GITHUB_STEP_SUMMARY
